@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang = "en", dir="ltr"></html>
+<head>
+    <meta charset = "utf-8">
+    <title>Web App</title>
+    <style>
+    body{
+        min-height: 100vh;
+        margin:0px;
+        padding:0px;
+    }
+    .picture{
+       width:40vw;
+    }
+    .image{
+        margin:20px;
+        display:flex;
+        justify-content:center;
+        align-content: center;
+    }
+    </style>
+</head>
+<body>
+<div id = "title">DEMO</div>
+<div id = "message" style = "width:80vw;">MESSAGE</div>
+<div id = "image"></div>
+
+<script>
+    // const cont = document.querySelector("#title")
+    // const url = "test.txt";
+    // const req = {method: 'GET'};
+    // fetch(url,req)
+    //     .then(res=>res.text())
+    //     .then(data=>{
+    //         cont.innerHTML = data
+    //     })
+    const message = document.querySelector("#message")
+    const image = document.querySelector("#image")
+    postPrint();
+    function  postPrint(){
+        const data = {
+            userAgent: navigator.userAgent, 
+            language: navigator.language,
+            color: screen.colorDepth,
+            height: screen.height,
+            width: screen.width,
+
+
+        }
+        const url = "/api/fingerprint"
+        const req = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(data)
+
+        }
+        console.log("Posting Request")
+        console.log(data)
+
+
+        fetch(url,req).then(res => res.json()).then(data => {
+            console.log(data)
+        })
+    }
+    const url2 = " https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY";
+    const req2 = {method: 'GET'};
+    fetch(url2,req2)
+        .then(res1=>res1.json())
+        .then(data1=>{
+            message.innerHTML = data1.explanation
+            image.innerHTML = `<img class = "picture" src = ${data1.hdurl}>`
+        })
+    
+</script>
+
+</body>
